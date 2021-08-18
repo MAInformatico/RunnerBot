@@ -1,4 +1,4 @@
-import requests, json
+import requests, json, math
  
 # Enter your API key here
 api_key = "your_token_here" #you can get it on: https://openweathermap.org/api
@@ -15,13 +15,14 @@ def setCity(city):
 def createURL(base_url, city_name, api_key):
     complete_url = base_url + "appid=" + api_key + "&q=" + city_name
     return complete_url
- 
 
 response = requests.get(createURL(base_url,city_name, api_key))
  
 def getJSON(response):
     # json method of response object convert json format data into python format data
+    response = requests.get(createURL(base_url,city_name, api_key))  
     JSONObject = response.json()
+
     if JSONObject["cod"] != "404":        
         return JSONObject
     else:
@@ -30,24 +31,25 @@ def getJSON(response):
 def getWeatherTemperature(x):
     x = getJSON(response)
     y = x["main"]
-
     current_temperature = y["temp"] #Temperature in Kelvin
     
     return current_temperature
 
 def convertToCelsius(Kelvin):
     Celsius = Kelvin - 273.15
-    return round(Celsius,2)
 
+    return math.ceil(Celsius)
 
 def getWeatherPressure(x):
     x = getJSON(response)
     y = x["main"]
     current_pressure = y["pressure"]
+
     return current_pressure
  
 def getWeatherHumidity(x):
     x = getJSON(response)
     y = x["main"]
     current_humidity = y["humidity"]
+
     return current_humidity 
