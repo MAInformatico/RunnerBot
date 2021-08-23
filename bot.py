@@ -35,7 +35,7 @@ def weatherHumidity(update,context):
 
 
 def main():
-    updater = Updater("1919515299:AAHlxMDGTIKC-xuLRp4Fl8f9woWbB-F7wqg", use_context=True)
+    updater = Updater("your_token_here", use_context=True)
 
     dp = updater.dispatcher
 
