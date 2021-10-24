@@ -1,16 +1,23 @@
 import datetime
 import ephem #dependecy required. To install it, run 'pip install pyephem'
 
+def read():
+    with open("coordinates.txt") as _file:
+        values = _file.read()
+    return values
 
-def getSunrise():
+coordinates = str(read()).split(',')
+
+
+def getSunrise(coordinates):
     o = ephem.Observer()
-    o.lat, o.long, o.date = '37:10', '-3:36', datetime.datetime.utcnow() #Set your own coordinates here
+    o.lat, o.long, o.date = str(coordinates[0]), str(coordinates[1]), datetime.datetime.utcnow() #Set your own coordinates here
     Sun = ephem.Sun(o)
     return getTimezone(str(o.next_rising(Sun)))
 
 def getSunset():
-    o = ephem.Observer()
-    o.lat, o.long, o.date = '37:10', '-3:36', datetime.datetime.utcnow() #Same situation than previous method
+    o = ephem.Observer(coordinates)
+    o.lat, o.long, o.date = str(coordinates[0]), str(coordinates[1]), datetime.datetime.utcnow() #Same situation than previous method
     Sun = ephem.Sun(o)
     return getTimezone(str(o.next_setting(Sun)))
 
