@@ -31,7 +31,7 @@ def weatherHumidity(update,context):
     update.message.reply_text("Current humidity: " + str(verify) + "%")
 
 def showHelp(update, context):
-    update.message.reply_text("You can use these commands: \n" + "/weather to check the page eltiempo.es\n" + "/sunrise to check the time that will sunrise the next day in Granada (it is showed in UTC time)\n" + "/sunset shows the time that will sunrise in Granada\n" + "/temperature real time temperature in Granada\n" + "/humidity real time humidity in Granada\n")
+    update.message.reply_text("You can use these commands: \n" + "/sunrise to check the time that will sunrise the next day in Granada (in local time)\n" + "/sunset shows the time that will sunrise in Granada\n" + "/temperature real time temperature in Granada\n" + "/humidity real time humidity in Granada\n")
 
 
 def main():
