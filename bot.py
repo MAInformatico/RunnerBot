@@ -14,9 +14,6 @@ logger = logging.getLogger(__name__)
 def error(update, context):
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
-def weather(update, context):
-    update.message.reply_text("Check weather on this link (also available in English too): https://www.eltiempo.es")
-
 def sunrise(update, context):
     verify = getSunrise()
     update.message.reply_text("Sunrise (UTC time):\n" + str(verify)) 
@@ -42,7 +39,6 @@ def main():
 
     dp = updater.dispatcher
 
-    dp.add_handler(CommandHandler("weather", weather))
     dp.add_handler(CommandHandler("sunrise",sunrise))
     dp.add_handler(CommandHandler("sunset",sunset))
     dp.add_handler(CommandHandler("temperature",weatherTemperature))
