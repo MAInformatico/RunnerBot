@@ -16,11 +16,11 @@ def error(update, context):
 
 def sunrise(update, context):
     verify = getSunrise()
-    update.message.reply_text("Sunrise (UTC time):\n" + str(verify)) 
+    update.message.reply_text("Sunrise (Local time):\n" + str(verify)) 
 
 def sunset(update, context):
     verify = getSunset()
-    update.message.reply_text("Sunset (UTC time):\n" + str(verify))
+    update.message.reply_text("Sunset (Local time):\n" + str(verify))
 
 def weatherTemperature(update,context):
     verify = convertToCelsius(getWeatherTemperature(getJSON(response)))
