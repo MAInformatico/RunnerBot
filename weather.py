@@ -1,9 +1,12 @@
 import requests, json, math
- 
-# Enter your API key here
-api_key = "your_token_here" #you can get it on: https://openweathermap.org/api
- 
-# base_url variable to store url
+import re
+
+f = open('apiKey.txt', 'r') #reading apikey from file
+key = f.readline()
+key = re.compile(r'\W+', re.UNICODE).split(key)
+key = key[0]
+f.close() 
+api_key = key
 base_url = "http://api.openweathermap.org/data/2.5/weather?"
  
 # Give city name
@@ -53,3 +56,4 @@ def getWeatherHumidity(x):
     current_humidity = y["humidity"]
 
     return current_humidity 
+
