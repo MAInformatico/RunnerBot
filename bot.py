@@ -35,7 +35,7 @@ def showHelp(update, context):
 
 
 def main():
-    updater = Updater("your_token_here", use_context=True)
+    updater = Updater("put your token own here", use_context=True)
 
     dp = updater.dispatcher
 
@@ -43,6 +43,7 @@ def main():
     dp.add_handler(CommandHandler("sunset",sunset))
     dp.add_handler(CommandHandler("temperature",weatherTemperature))
     dp.add_handler(CommandHandler("humidity",weatherHumidity))
+    dp.add_handler(CommandHandler("help",showHelp))
 
 
     dp.add_error_handler(error)
