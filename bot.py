@@ -1,55 +1,58 @@
 import logging
 
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from suntime import *
 from weather import *
 
-# Enable logging
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
+from telegram import Update
+from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
+
+
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+)
+
+# set higher logging level for httpx to avoid all GET and POST requests being logged
+
+logging.getLogger("httpx").setLevel(logging.WARNING)
+
 
 logger = logging.getLogger(__name__)
 
 
-def error(update, context):
+async def error(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
-def sunrise(update, context):
+async def sunrise(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     verify = getSunrise()
-    update.message.reply_text("Sunrise (Local time):\n" + str(verify)) 
+    await update.message.reply_text("Sunrise (Local time):\n" + str(verify)) 
 
-def sunset(update, context):
+async def sunset(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     verify = getSunset()
-    update.message.reply_text("Sunset (Local time):\n" + str(verify))
+    await update.message.reply_text("Sunset (Local time):\n" + str(verify))
 
-def weatherTemperature(update,context):
+async def weatherTemperature(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     verify = convertToCelsius(getWeatherTemperature(getJSON(response)))
-    update.message.reply_text("Current temperature: " + str(verify) + "ºC ")
+    await update.message.reply_text("Current temperature: " + str(verify) + "ºC ")
 
-def weatherHumidity(update,context):
+async def weatherHumidity(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     verify = getWeatherHumidity(getWeatherTemperature(getJSON(response)))
-    update.message.reply_text("Current humidity: " + str(verify) + "%")
+    await update.message.reply_text("Current humidity: " + str(verify) + "%")
 
-def showHelp(update, context):
-    update.message.reply_text("You can use these commands: \n" + "/sunrise to check the time that will sunrise the next day in Granada (in local time)\n" + "/sunset shows the time that will sunrise in Granada\n" + "/temperature real time temperature in Granada\n" + "/humidity real time humidity in Granada\n")
+async def showHelp(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text("You can use these commands: \n" + "/sunrise to check the time that will sunrise the next day in Granada (in local time)\n" + "/sunset shows the time that will sunrise in Granada\n" + "/temperature real time temperature in Granada\n" + "/humidity real time humidity in Granada\n")
 
 
 def main():
-    updater = Updater("put your token own here", use_context=True)
+    application  = Application.builder().token("1919515299:AAEsGOePWYK9DrrisOHNpriOLyMC44UUJSE").build()
+    
+    application.add_handler(CommandHandler("sunrise",sunrise))
+    application.add_handler(CommandHandler("sunset",sunset))
+    application.add_handler(CommandHandler("temperature",weatherTemperature))
+    application.add_handler(CommandHandler("humidity",weatherHumidity))
+    application.add_handler(CommandHandler("help",showHelp))
+    application.add_error_handler(error)
 
-    dp = updater.dispatcher
-
-    dp.add_handler(CommandHandler("sunrise",sunrise))
-    dp.add_handler(CommandHandler("sunset",sunset))
-    dp.add_handler(CommandHandler("temperature",weatherTemperature))
-    dp.add_handler(CommandHandler("humidity",weatherHumidity))
-    dp.add_handler(CommandHandler("help",showHelp))
-
-
-    dp.add_error_handler(error)
-
-    updater.start_polling()
-    updater.idle()
+    application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
 if __name__ == '__main__':
