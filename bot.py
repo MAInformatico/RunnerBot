@@ -43,7 +43,7 @@ async def showHelp(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 def main():
-    application  = Application.builder().token("1919515299:AAEsGOePWYK9DrrisOHNpriOLyMC44UUJSE").build()
+    application  = Application.builder().token("your_token_here").build()
     
     application.add_handler(CommandHandler("sunrise",sunrise))
     application.add_handler(CommandHandler("sunset",sunset))
