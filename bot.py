@@ -23,22 +23,22 @@ async def error(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
 async def sunrise(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    verify = getSunrise()
+    verify = get_sunrise()
     await update.message.reply_text("Sunrise (Local time):\n" + str(verify)) 
 
 async def sunset(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    verify = getSunset()
+    verify = get_sunset()
     await update.message.reply_text("Sunset (Local time):\n" + str(verify))
 
-async def weatherTemperature(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def weather_temperature(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     verify = convertToCelsius(getWeatherTemperature(getJSON(response)))
     await update.message.reply_text("Current temperature: " + str(verify) + "ºC ")
 
-async def weatherHumidity(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def weather_humidity(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     verify = getWeatherHumidity(getWeatherTemperature(getJSON(response)))
     await update.message.reply_text("Current humidity: " + str(verify) + "%")
 
-async def showHelp(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def show_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text("You can use these commands: \n" + "/sunrise to check the time that will sunrise the next day in Granada (in local time)\n" + "/sunset shows the time that will sunrise in Granada\n" + "/temperature real time temperature in Granada\n" + "/humidity real time humidity in Granada\n")
 
 
@@ -47,9 +47,9 @@ def main():
     
     application.add_handler(CommandHandler("sunrise",sunrise))
     application.add_handler(CommandHandler("sunset",sunset))
-    application.add_handler(CommandHandler("temperature",weatherTemperature))
-    application.add_handler(CommandHandler("humidity",weatherHumidity))
-    application.add_handler(CommandHandler("help",showHelp))
+    application.add_handler(CommandHandler("temperature",weather_temperature))
+    application.add_handler(CommandHandler("humidity",weather_humidity))
+    application.add_handler(CommandHandler("help",show_help))
     application.add_error_handler(error)
 
     application.run_polling(allowed_updates=Update.ALL_TYPES)
