@@ -39,7 +39,7 @@ async def weather_humidity(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     await update.message.reply_text("Current humidity: " + str(verify) + "%")
 
 async def show_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text("You can use these commands: \n" + "/sunrise to check the time that will sunrise the next day in Granada (in local time)\n" + "/sunset shows the time that will sunrise in Granada\n" + "/temperature real time temperature in Granada\n" + "/humidity real time humidity in Granada\n")
+    await update.message.reply_text("You can use these commands: \n" + "/sunrise to check the sunrise time of the next day in Granada (in local time)\n" + "/sunset shows the sunset time in Granada\n" + "/temperature real time temperature in Granada\n" + "/humidity real time humidity in Granada\n")
 
 
 def main():
